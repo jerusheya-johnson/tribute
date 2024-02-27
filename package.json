@@ -24,7 +24,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-spec-reporter": "0.0.32",
     "puppeteer": "^2.1.1",
-    "rollup": "^1.32.0",
+    "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-livereload": "^2.0.5",
@@ -38,12 +38,11 @@
     "url": "git://github.com/zurb/tribute.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "start": "rollup -c -w",
+    "build": "npx rollup -c",
+    "start": "npx rollup -c -w",
     "test": "karma start test/karma.conf.js",
     "test-single-run": "karma start test/karma.conf.js --single-run --browsers ChromeHeadless"
   },
   "author": "Jordan Humphreys <jordan@zurb.com>",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }

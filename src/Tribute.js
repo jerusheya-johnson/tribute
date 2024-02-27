@@ -29,7 +29,8 @@ class Tribute {
     spaceSelectsMatch = false,
     searchOpts = {},
     menuItemLimit = null,
-    menuShowMinLength = 0
+    menuShowMinLength = 0,
+    headerContainer = null
   }) {
     this.autocompleteMode = autocompleteMode;
     this.autocompleteSeparator = autocompleteSeparator;
@@ -43,6 +44,7 @@ class Tribute {
     this.positionMenu = positionMenu;
     this.hasTrailingSpace = false;
     this.spaceSelectsMatch = spaceSelectsMatch;
+    this.headerContainer = headerContainer;
 
     if (this.autocompleteMode) {
       trigger = "";
@@ -113,7 +115,24 @@ class Tribute {
 
           menuItemLimit: menuItemLimit,
 
-          menuShowMinLength: menuShowMinLength
+          menuShowMinLength: menuShowMinLength,
+
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return null;
+              }.bind(this)
+            );
+          })(headerContainer)
         }
       ];
     } else if (collection) {
@@ -158,7 +177,23 @@ class Tribute {
           requireLeadingSpace: item.requireLeadingSpace,
           searchOpts: item.searchOpts || searchOpts,
           menuItemLimit: item.menuItemLimit || menuItemLimit,
-          menuShowMinLength: item.menuShowMinLength || menuShowMinLength
+          menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return null;
+              }.bind(this)
+            );
+          })(headerContainer)
         };
       });
     } else {
@@ -263,7 +298,10 @@ class Tribute {
   createMenu(containerClass) {
     let wrapper = this.range.getDocument().createElement("div"),
       ul = this.range.getDocument().createElement("ul");
+      header = this.range.getDocument().createElement("div");
+
     wrapper.className = containerClass;
+    wrapper.appendChild(header);
     wrapper.appendChild(ul);
 
     if (this.menuContainer) {
