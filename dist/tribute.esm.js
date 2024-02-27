@@ -1373,22 +1373,9 @@ class Tribute {
 
           menuShowMinLength: menuShowMinLength,
 
-          headerContainer: (t => {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-            if (typeof t === "function") {
-              return t.bind(this);
-            }
-
-            return (
-              headerContainer ||
-              function() {
-                return null;
-              }.bind(this)
-            );
-          })(headerContainer)
+          headerContainer: (
+            headerContainer || `<div>Heading</div>`
+          ).bind(this)
         }
       ];
     } else if (collection) {
@@ -1434,22 +1421,9 @@ class Tribute {
           searchOpts: item.searchOpts || searchOpts,
           menuItemLimit: item.menuItemLimit || menuItemLimit,
           menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-          headerContainer: (t => {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-            if (typeof t === "function") {
-              return t.bind(this);
-            }
-
-            return (
-              headerContainer ||
-              function() {
-                return null;
-              }.bind(this)
-            );
-          })(headerContainer)
+          headerContainer: (
+            headerContainer || `<div>Heading</div>`
+          ).bind(this)
         };
       });
     } else {
@@ -1555,6 +1529,7 @@ class Tribute {
     let wrapper = this.range.getDocument().createElement("div"),
       ul = this.range.getDocument().createElement("ul"),
       header = this.range.getDocument().createElement("div");
+      header.classList.add('header-container');
 
     wrapper.className = containerClass;
     wrapper.appendChild(header);
@@ -1620,6 +1595,9 @@ class Tribute {
       }
 
       this.current.filteredItems = items;
+
+      let header = this.menu.querySelector(".header-container");
+      header.appendChild(this.current.collection.headerContainer);
 
       let ul = this.menu.querySelector("ul");
 

@@ -127,7 +127,7 @@
   }
 
   if (typeof window !== 'undefined' && typeof window.CustomEvent !== "function") {
-    var CustomEvent$1 = function CustomEvent(event, params) {
+    var CustomEvent$1 = function CustomEvent$1(event, params) {
       params = params || {
         bubbles: false,
         cancelable: false,
@@ -282,7 +282,6 @@
     }, {
       key: "getKeyCode",
       value: function getKeyCode(instance, el, event) {
-
         var tribute = instance.tribute;
         var info = tribute.range.getTriggerInfo(false, tribute.hasTrailingSpace, true, tribute.allowSpaces, tribute.autocompleteMode);
 
@@ -495,17 +494,17 @@
     _createClass(TributeMenuEvents, [{
       key: "bind",
       value: function bind(menu) {
-        var _this = this;
+        var _this2 = this;
 
         this.menuClickEvent = this.tribute.events.click.bind(null, this);
         this.menuContainerScrollEvent = this.debounce(function () {
-          if (_this.tribute.isActive) {
-            _this.tribute.hideMenu();
+          if (_this2.tribute.isActive) {
+            _this2.tribute.hideMenu();
           }
         }, 10, false);
         this.windowResizeEvent = this.debounce(function () {
-          if (_this.tribute.isActive) {
-            _this.tribute.hideMenu();
+          if (_this2.tribute.isActive) {
+            _this2.tribute.hideMenu();
           }
         }, 10, false); // fixes IE11 issues with mousedown
 
@@ -536,11 +535,11 @@
       key: "debounce",
       value: function debounce(func, wait, immediate) {
         var _arguments = arguments,
-            _this2 = this;
+            _this3 = this;
 
         var timeout;
         return function () {
-          var context = _this2,
+          var context = _this3,
               args = _arguments;
 
           var later = function later() {
@@ -557,7 +556,8 @@
     }]);
 
     return TributeMenuEvents;
-  }();
+  }(); // Thanks to https://github.com/jeff-collins/ment.io
+
 
   var TributeRange = /*#__PURE__*/function () {
     function TributeRange(tribute) {
@@ -838,7 +838,7 @@
     }, {
       key: "getTriggerInfo",
       value: function getTriggerInfo(menuAlreadyActive, hasTrailingSpace, requireLeadingSpace, allowSpaces, isAutocomplete) {
-        var _this = this;
+        var _this4 = this;
 
         var ctx = this.tribute.current;
         var selected, path, offset;
@@ -873,7 +873,7 @@
           var triggerChar;
           this.tribute.collection.forEach(function (config) {
             var c = config.trigger;
-            var idx = config.requireLeadingSpace ? _this.lastIndexWithLeadingSpace(effectiveRange, c) : effectiveRange.lastIndexOf(c);
+            var idx = config.requireLeadingSpace ? _this4.lastIndexWithLeadingSpace(effectiveRange, c) : effectiveRange.lastIndexOf(c);
 
             if (idx > mostRecentTriggerCharPos) {
               mostRecentTriggerCharPos = idx;
@@ -1143,9 +1143,9 @@
     }]);
 
     return TributeRange;
-  }();
+  }(); // Thanks to https://github.com/mattyork/fuzzy
 
-  // Thanks to https://github.com/mattyork/fuzzy
+
   var TributeSearch = /*#__PURE__*/function () {
     function TributeSearch(tribute) {
       _classCallCheck(this, TributeSearch);
@@ -1157,10 +1157,10 @@
     _createClass(TributeSearch, [{
       key: "simpleFilter",
       value: function simpleFilter(pattern, array) {
-        var _this = this;
+        var _this5 = this;
 
         return array.filter(function (string) {
-          return _this.test(pattern, string);
+          return _this5.test(pattern, string);
         });
       }
     }, {
@@ -1269,7 +1269,7 @@
     }, {
       key: "filter",
       value: function filter(pattern, arr, opts) {
-        var _this2 = this;
+        var _this6 = this;
 
         opts = opts || {};
         return arr.reduce(function (prev, element, idx, arr) {
@@ -1284,7 +1284,7 @@
             }
           }
 
-          var rendered = _this2.match(pattern, str, opts);
+          var rendered = _this6.match(pattern, str, opts);
 
           if (rendered != null) {
             prev[prev.length] = {
@@ -1309,7 +1309,7 @@
 
   var Tribute = /*#__PURE__*/function () {
     function Tribute(_ref) {
-      var _this = this;
+      var _this7 = this;
 
       var _ref$values = _ref.values,
           values = _ref$values === void 0 ? null : _ref$values,
@@ -1407,12 +1407,12 @@
             }
 
             if (typeof t === "function") {
-              return t.bind(_this);
+              return t.bind(_this7);
             }
 
             return noMatchTemplate || function () {
               return "<li>No Match Found!</li>";
-            }.bind(_this);
+            }.bind(_this7);
           }(noMatchTemplate),
           // column to search against in the object
           lookup: lookup,
@@ -1426,20 +1426,7 @@
           searchOpts: searchOpts,
           menuItemLimit: menuItemLimit,
           menuShowMinLength: menuShowMinLength,
-          headerContainer: function (t) {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-
-            if (typeof t === "function") {
-              return t.bind(_this);
-            }
-
-            return headerContainer || function () {
-              return null;
-            }.bind(_this);
-          }(headerContainer)
+          headerContainer: (headerContainer || "<div>Heading</div>").bind(this)
         }];
       } else if (collection) {
         if (this.autocompleteMode) console.warn("Tribute in autocomplete mode does not work for collections");
@@ -1450,8 +1437,8 @@
             selectClass: item.selectClass || selectClass,
             containerClass: item.containerClass || containerClass,
             itemClass: item.itemClass || itemClass,
-            selectTemplate: (item.selectTemplate || Tribute.defaultSelectTemplate).bind(_this),
-            menuItemTemplate: (item.menuItemTemplate || Tribute.defaultMenuItemTemplate).bind(_this),
+            selectTemplate: (item.selectTemplate || Tribute.defaultSelectTemplate).bind(_this7),
+            menuItemTemplate: (item.menuItemTemplate || Tribute.defaultMenuItemTemplate).bind(_this7),
             // function called when menu is empty, disables hiding of menu.
             noMatchTemplate: function (t) {
               if (typeof t === "string") {
@@ -1460,12 +1447,12 @@
               }
 
               if (typeof t === "function") {
-                return t.bind(_this);
+                return t.bind(_this7);
               }
 
               return noMatchTemplate || function () {
                 return "<li>No Match Found!</li>";
-              }.bind(_this);
+              }.bind(_this7);
             }(noMatchTemplate),
             lookup: item.lookup || lookup,
             fillAttr: item.fillAttr || fillAttr,
@@ -1475,20 +1462,7 @@
             searchOpts: item.searchOpts || searchOpts,
             menuItemLimit: item.menuItemLimit || menuItemLimit,
             menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-            headerContainer: function (t) {
-              if (typeof t === "string") {
-                if (t.trim() === "") return null;
-                return t;
-              }
-
-              if (typeof t === "function") {
-                return t.bind(_this);
-              }
-
-              return headerContainer || function () {
-                return null;
-              }.bind(_this);
-            }(headerContainer)
+            headerContainer: (headerContainer || "<div>Heading</div>").bind(_this7)
           };
         });
       } else {
@@ -1557,6 +1531,7 @@
         var wrapper = this.range.getDocument().createElement("div"),
             ul = this.range.getDocument().createElement("ul"),
             header = this.range.getDocument().createElement("div");
+        header.classList.add('header-container');
         wrapper.className = containerClass;
         wrapper.appendChild(header);
         wrapper.appendChild(ul);
@@ -1570,7 +1545,7 @@
     }, {
       key: "showMenuFor",
       value: function showMenuFor(element, scrollTo) {
-        var _this2 = this;
+        var _this8 = this;
 
         // Only proceed if menu isn't already shown for the current element & mentionText
         if (this.isActive && this.current.element === element && this.current.mentionText === this.currentMentionTextSnapshot) {
@@ -1594,46 +1569,50 @@
 
         var processValues = function processValues(values) {
           // Tribute may not be active any more by the time the value callback returns
-          if (!_this2.isActive) {
+          if (!_this8.isActive) {
             return;
           }
 
-          var items = _this2.search.filter(_this2.current.mentionText, values, {
-            pre: _this2.current.collection.searchOpts.pre || "<span>",
-            post: _this2.current.collection.searchOpts.post || "</span>",
-            skip: _this2.current.collection.searchOpts.skip,
+          var items = _this8.search.filter(_this8.current.mentionText, values, {
+            pre: _this8.current.collection.searchOpts.pre || "<span>",
+            post: _this8.current.collection.searchOpts.post || "</span>",
+            skip: _this8.current.collection.searchOpts.skip,
             extract: function extract(el) {
-              if (typeof _this2.current.collection.lookup === "string") {
-                return el[_this2.current.collection.lookup];
-              } else if (typeof _this2.current.collection.lookup === "function") {
-                return _this2.current.collection.lookup(el, _this2.current.mentionText);
+              if (typeof _this8.current.collection.lookup === "string") {
+                return el[_this8.current.collection.lookup];
+              } else if (typeof _this8.current.collection.lookup === "function") {
+                return _this8.current.collection.lookup(el, _this8.current.mentionText);
               } else {
                 throw new Error("Invalid lookup attribute, lookup must be string or function.");
               }
             }
           });
 
-          if (_this2.current.collection.menuItemLimit) {
-            items = items.slice(0, _this2.current.collection.menuItemLimit);
+          if (_this8.current.collection.menuItemLimit) {
+            items = items.slice(0, _this8.current.collection.menuItemLimit);
           }
 
-          _this2.current.filteredItems = items;
+          _this8.current.filteredItems = items;
 
-          var ul = _this2.menu.querySelector("ul");
+          var header = _this8.menu.querySelector(".header-container");
+
+          header.appendChild(_this8.current.collection.headerContainer);
+
+          var ul = _this8.menu.querySelector("ul");
 
           if (!items.length) {
             var noMatchEvent = new CustomEvent("tribute-no-match", {
-              detail: _this2.menu
+              detail: _this8.menu
             });
 
-            _this2.current.element.dispatchEvent(noMatchEvent);
+            _this8.current.element.dispatchEvent(noMatchEvent);
 
-            if (typeof _this2.current.collection.noMatchTemplate === "function" && !_this2.current.collection.noMatchTemplate() || !_this2.current.collection.noMatchTemplate) {
-              _this2.hideMenu();
+            if (typeof _this8.current.collection.noMatchTemplate === "function" && !_this8.current.collection.noMatchTemplate() || !_this8.current.collection.noMatchTemplate) {
+              _this8.hideMenu();
             } else {
-              typeof _this2.current.collection.noMatchTemplate === "function" ? ul.innerHTML = _this2.current.collection.noMatchTemplate() : ul.innerHTML = _this2.current.collection.noMatchTemplate;
+              typeof _this8.current.collection.noMatchTemplate === "function" ? ul.innerHTML = _this8.current.collection.noMatchTemplate() : ul.innerHTML = _this8.current.collection.noMatchTemplate;
 
-              _this2.range.positionMenuAtCaret(scrollTo);
+              _this8.range.positionMenuAtCaret(scrollTo);
             }
 
             return;
@@ -1641,34 +1620,34 @@
 
           ul.innerHTML = "";
 
-          var fragment = _this2.range.getDocument().createDocumentFragment();
+          var fragment = _this8.range.getDocument().createDocumentFragment();
 
           items.forEach(function (item, index) {
-            var li = _this2.range.getDocument().createElement("li");
+            var li = _this8.range.getDocument().createElement("li");
 
             li.setAttribute("data-index", index);
-            li.className = _this2.current.collection.itemClass;
+            li.className = _this8.current.collection.itemClass;
             li.addEventListener("mousemove", function (e) {
-              var _this2$_findLiTarget = _this2._findLiTarget(e.target),
-                  _this2$_findLiTarget2 = _slicedToArray(_this2$_findLiTarget, 2),
-                  li = _this2$_findLiTarget2[0],
-                  index = _this2$_findLiTarget2[1];
+              var _this8$_findLiTarget = _this8._findLiTarget(e.target),
+                  _this8$_findLiTarget2 = _slicedToArray(_this8$_findLiTarget, 2),
+                  li = _this8$_findLiTarget2[0],
+                  index = _this8$_findLiTarget2[1];
 
               if (e.movementY !== 0) {
-                _this2.events.setActiveLi(index);
+                _this8.events.setActiveLi(index);
               }
             });
 
-            if (_this2.menuSelected === index) {
-              li.classList.add(_this2.current.collection.selectClass);
+            if (_this8.menuSelected === index) {
+              li.classList.add(_this8.current.collection.selectClass);
             }
 
-            li.innerHTML = _this2.current.collection.menuItemTemplate(item);
+            li.innerHTML = _this8.current.collection.menuItemTemplate(item);
             fragment.appendChild(li);
           });
           ul.appendChild(fragment);
 
-          _this2.range.positionMenuAtCaret(scrollTo);
+          _this8.range.positionMenuAtCaret(scrollTo);
         };
 
         if (typeof this.current.collection.values === "function") {
@@ -1831,7 +1810,7 @@
     }, {
       key: "_detach",
       value: function _detach(el) {
-        var _this3 = this;
+        var _this9 = this;
 
         this.events.unbind(el);
 
@@ -1841,7 +1820,7 @@
 
         setTimeout(function () {
           el.removeAttribute("data-tribute");
-          _this3.isActive = false;
+          _this9.isActive = false;
 
           if (el.tributeMenu) {
             el.tributeMenu.remove();
