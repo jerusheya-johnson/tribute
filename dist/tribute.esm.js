@@ -1263,7 +1263,8 @@ class Tribute {
     spaceSelectsMatch = false,
     searchOpts = {},
     menuItemLimit = null,
-    menuShowMinLength = 0
+    menuShowMinLength = 0,
+    headerContainer = null
   }) {
     this.autocompleteMode = autocompleteMode;
     this.autocompleteSeparator = autocompleteSeparator;
@@ -1272,6 +1273,7 @@ class Tribute {
     this.inputEvent = false;
     this.isActive = false;
     this.menuContainer = menuContainer;
+    this.headerContainer = headerContainer;
     this.allowSpaces = allowSpaces;
     this.replaceTextSuffix = replaceTextSuffix;
     this.positionMenu = positionMenu;
@@ -1347,7 +1349,24 @@ class Tribute {
 
           menuItemLimit: menuItemLimit,
 
-          menuShowMinLength: menuShowMinLength
+          menuShowMinLength: menuShowMinLength,
+
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return null;
+              }.bind(this)
+            );
+          })(noMatchTemplate),
         }
       ];
     } else if (collection) {
@@ -1392,7 +1411,23 @@ class Tribute {
           requireLeadingSpace: item.requireLeadingSpace,
           searchOpts: item.searchOpts || searchOpts,
           menuItemLimit: item.menuItemLimit || menuItemLimit,
-          menuShowMinLength: item.menuShowMinLength || menuShowMinLength
+          menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return null;
+              }.bind(this)
+            );
+          })(noMatchTemplate),
         };
       });
     } else {
@@ -1496,17 +1531,26 @@ class Tribute {
     }
   }
 
-  createMenu(containerClass) {
+  createMenu(containerClass, headerText) {
     let wrapper = this.range.getDocument().createElement("div"),
-      ul = this.range.getDocument().createElement("ul");
+        ul = this.range.getDocument().createElement("ul"),
+        header = this.range.getDocument().createElement("div");
+
+    // Set up header
+    // header.className = "menu-header";
+    // header.textContent = headerText;
+
+    // Set up wrapper
     wrapper.className = containerClass;
+    wrapper.appendChild(header);
     wrapper.appendChild(ul);
 
+    // Append wrapper to menuContainer or document body
     if (this.menuContainer) {
-      return this.menuContainer.appendChild(wrapper);
+        return this.menuContainer.appendChild(wrapper);
+    } else {
+        return this.range.getDocument().body.appendChild(wrapper);
     }
-
-    return this.range.getDocument().body.appendChild(wrapper);
   }
 
   showMenuFor(element, scrollTo) {
