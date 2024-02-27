@@ -1622,8 +1622,12 @@ class Tribute {
 
       this.current.filteredItems = items;
 
-      let header = this.menu.querySelector(".header-container")
-      header.appendChild(this.current.collection.headerContainer);
+      let header = this.menu.querySelector(".header-container");
+      if (header) {
+          header.appendChild(this.current.collection.headerContainer());
+      } else {
+          console.error("Header element not found.");
+      }      
 
       let ul = this.menu.querySelector("ul");
 

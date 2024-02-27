@@ -1622,7 +1622,11 @@
 
           var header = _this8.menu.querySelector(".header-container");
 
-          header.appendChild(_this8.current.collection.headerContainer);
+          if (header) {
+            header.appendChild(_this8.current.collection.headerContainer());
+          } else {
+            console.error("Header element not found.");
+          }
 
           var ul = _this8.menu.querySelector("ul");
 
