@@ -297,7 +297,7 @@ class Tribute {
 
   createMenu(containerClass) {
     let wrapper = this.range.getDocument().createElement("div"),
-      ul = this.range.getDocument().createElement("ul");
+      ul = this.range.getDocument().createElement("ul"),
       header = this.range.getDocument().createElement("div");
 
     wrapper.className = containerClass;
