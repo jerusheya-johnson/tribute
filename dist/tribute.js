@@ -1426,20 +1426,7 @@
           searchOpts: searchOpts,
           menuItemLimit: menuItemLimit,
           menuShowMinLength: menuShowMinLength,
-          headerContainer: function (t) {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-
-            if (typeof t === "function") {
-              return t.bind(_this7);
-            }
-
-            return headerContainer || function () {
-              return "<h3>Heading!</h3>";
-            }.bind(_this7);
-          }(headerContainer)
+          headerContainer: headerContainer
         }];
       } else if (collection) {
         if (this.autocompleteMode) console.warn("Tribute in autocomplete mode does not work for collections");
@@ -1471,24 +1458,11 @@
             fillAttr: item.fillAttr || fillAttr,
             values: item.values,
             loadingItemTemplate: item.loadingItemTemplate,
+            headerContainer: item.headerContainer,
             requireLeadingSpace: item.requireLeadingSpace,
             searchOpts: item.searchOpts || searchOpts,
             menuItemLimit: item.menuItemLimit || menuItemLimit,
-            menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-            headerContainer: function (t) {
-              if (typeof t === "string") {
-                if (t.trim() === "") return null;
-                return t;
-              }
-
-              if (typeof t === "function") {
-                return t.bind(_this7);
-              }
-
-              return headerContainer || function () {
-                return "<h3>Heading!</h3>";
-              }.bind(_this7);
-            }(headerContainer)
+            menuShowMinLength: item.menuShowMinLength || menuShowMinLength
           };
         });
       } else {
@@ -1622,10 +1596,8 @@
 
           var header = _this8.menu.querySelector(".header-container");
 
-          if (header) {
-            header.appendChild(_this8.current.collection.headerContainer());
-          } else {
-            console.error("Header element not found.");
+          if (_this8.current.collection.headerContainer && header) {
+            _this8.menu.querySelector("ul").innerHTML = _this8.current.collection.headerContainer;
           }
 
           var ul = _this8.menu.querySelector("ul");

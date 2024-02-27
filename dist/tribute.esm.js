@@ -1373,22 +1373,7 @@ class Tribute {
 
           menuShowMinLength: menuShowMinLength,
 
-          headerContainer: (t => {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-            if (typeof t === "function") {
-              return t.bind(this);
-            }
-
-            return (
-              headerContainer ||
-              function() {
-                return "<h3>Heading!</h3>";
-              }.bind(this)
-            );
-          })(headerContainer)
+          headerContainer: headerContainer
         }
       ];
     } else if (collection) {
@@ -1430,26 +1415,11 @@ class Tribute {
           fillAttr: item.fillAttr || fillAttr,
           values: item.values,
           loadingItemTemplate: item.loadingItemTemplate,
+          headerContainer: item.headerContainer,
           requireLeadingSpace: item.requireLeadingSpace,
           searchOpts: item.searchOpts || searchOpts,
           menuItemLimit: item.menuItemLimit || menuItemLimit,
-          menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-          headerContainer: (t => {
-            if (typeof t === "string") {
-              if (t.trim() === "") return null;
-              return t;
-            }
-            if (typeof t === "function") {
-              return t.bind(this);
-            }
-
-            return (
-              headerContainer ||
-              function() {
-                return "<h3>Heading!</h3>";
-              }.bind(this)
-            );
-          })(headerContainer)
+          menuShowMinLength: item.menuShowMinLength || menuShowMinLength
         };
       });
     } else {
@@ -1623,11 +1593,9 @@ class Tribute {
       this.current.filteredItems = items;
 
       let header = this.menu.querySelector(".header-container");
-      if (header) {
-          header.appendChild(this.current.collection.headerContainer());
-      } else {
-          console.error("Header element not found.");
-      }      
+      if (this.current.collection.headerContainer && header) {
+        this.menu.querySelector("ul").innerHTML = this.current.collection.headerContainer;
+      }    
 
       let ul = this.menu.querySelector("ul");
 
