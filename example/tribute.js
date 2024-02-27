@@ -1426,7 +1426,20 @@
           searchOpts: searchOpts,
           menuItemLimit: menuItemLimit,
           menuShowMinLength: menuShowMinLength,
-          headerContainer: (headerContainer || "<div>Heading</div>").bind(this)
+          headerContainer: function (t) {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+
+            if (typeof t === "function") {
+              return t.bind(_this7);
+            }
+
+            return headerContainer || function () {
+              return "<h3>Heading!</h3>";
+            }.bind(_this7);
+          }(headerContainer)
         }];
       } else if (collection) {
         if (this.autocompleteMode) console.warn("Tribute in autocomplete mode does not work for collections");
@@ -1462,7 +1475,20 @@
             searchOpts: item.searchOpts || searchOpts,
             menuItemLimit: item.menuItemLimit || menuItemLimit,
             menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-            headerContainer: (headerContainer || "<div>Heading</div>").bind(_this7)
+            headerContainer: function (t) {
+              if (typeof t === "string") {
+                if (t.trim() === "") return null;
+                return t;
+              }
+
+              if (typeof t === "function") {
+                return t.bind(_this7);
+              }
+
+              return headerContainer || function () {
+                return "<h3>Heading!</h3>";
+              }.bind(_this7);
+            }(headerContainer)
           };
         });
       } else {

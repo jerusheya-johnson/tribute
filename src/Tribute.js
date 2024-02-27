@@ -1373,9 +1373,22 @@ class Tribute {
 
           menuShowMinLength: menuShowMinLength,
 
-          headerContainer: (
-            headerContainer || `<div>Heading</div>`
-          ).bind(this)
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return "<h3>Heading!</h3>";
+              }.bind(this)
+            );
+          })(headerContainer)
         }
       ];
     } else if (collection) {
@@ -1421,9 +1434,22 @@ class Tribute {
           searchOpts: item.searchOpts || searchOpts,
           menuItemLimit: item.menuItemLimit || menuItemLimit,
           menuShowMinLength: item.menuShowMinLength || menuShowMinLength,
-          headerContainer: (
-            headerContainer || `<div>Heading</div>`
-          ).bind(this)
+          headerContainer: (t => {
+            if (typeof t === "string") {
+              if (t.trim() === "") return null;
+              return t;
+            }
+            if (typeof t === "function") {
+              return t.bind(this);
+            }
+
+            return (
+              headerContainer ||
+              function() {
+                return "<h3>Heading!</h3>";
+              }.bind(this)
+            );
+          })(headerContainer)
         };
       });
     } else {
