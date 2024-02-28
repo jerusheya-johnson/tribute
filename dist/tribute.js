@@ -1597,7 +1597,7 @@
           var header = _this8.menu.querySelector(".header-container");
 
           if (_this8.current.collection.headerContainer && header) {
-            _this8.menu.querySelector("ul").innerHTML = _this8.current.collection.headerContainer;
+            header.innerHTML = _this8.current.collection.headerContainer;
           }
 
           var ul = _this8.menu.querySelector("ul");

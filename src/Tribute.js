@@ -1594,7 +1594,7 @@ class Tribute {
 
       let header = this.menu.querySelector(".header-container");
       if (this.current.collection.headerContainer && header) {
-        this.menu.querySelector("ul").innerHTML = this.current.collection.headerContainer;
+        header.innerHTML = this.current.collection.headerContainer;
       }    
 
       let ul = this.menu.querySelector("ul");
