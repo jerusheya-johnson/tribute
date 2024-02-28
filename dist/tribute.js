@@ -201,7 +201,7 @@
       value: function click(instance, event) {
         var tribute = instance.tribute;
 
-        if (tribute.menu && tribute.menu.contains(event.target)) {
+        if (tribute.menu && tribute.menu.contains(event.target) && !event.target.closest('.header-container')) {
           var li = event.target;
           event.preventDefault();
           event.stopPropagation();
@@ -216,6 +216,8 @@
 
           tribute.selectItemAtIndex(li.getAttribute("data-index"), event);
           tribute.hideMenu(); // TODO: should fire with externalTrigger and target is outside of menu
+        } else if (event.target.closest('.header-container')) {
+          tribute.showMenuFor(tribute.current.element);
         } else if (tribute.current.element && !tribute.current.externalTrigger) {
           tribute.current.externalTrigger = false;
           setTimeout(function () {
