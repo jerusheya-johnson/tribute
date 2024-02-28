@@ -1534,6 +1534,11 @@
         header.classList.add('header-container');
         wrapper.className = containerClass;
         wrapper.appendChild(header);
+
+        if (this.current.collection.headerContainer && header) {
+          header.innerHTML = this.current.collection.headerContainer;
+        }
+
         wrapper.appendChild(ul);
 
         if (this.menuContainer) {
@@ -1593,12 +1598,6 @@
           }
 
           _this8.current.filteredItems = items;
-
-          var header = _this8.menu.querySelector(".header-container");
-
-          if (_this8.current.collection.headerContainer && header) {
-            header.innerHTML = _this8.current.collection.headerContainer;
-          }
 
           var ul = _this8.menu.querySelector("ul");
 

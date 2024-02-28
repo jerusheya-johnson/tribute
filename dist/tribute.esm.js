@@ -1529,6 +1529,9 @@ class Tribute {
 
     wrapper.className = containerClass;
     wrapper.appendChild(header);
+    if (this.current.collection.headerContainer && header) {
+      header.innerHTML = this.current.collection.headerContainer;
+    }   
     wrapper.appendChild(ul);
 
     if (this.menuContainer) {
@@ -1590,12 +1593,7 @@ class Tribute {
         items = items.slice(0, this.current.collection.menuItemLimit);
       }
 
-      this.current.filteredItems = items;
-
-      let header = this.menu.querySelector(".header-container");
-      if (this.current.collection.headerContainer && header) {
-        header.innerHTML = this.current.collection.headerContainer;
-      }    
+      this.current.filteredItems = items; 
 
       let ul = this.menu.querySelector("ul");
 
