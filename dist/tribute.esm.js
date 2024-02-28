@@ -160,8 +160,6 @@ class TributeEvents {
       tribute.hideMenu();
 
       // TODO: should fire with externalTrigger and target is outside of menu
-    } else if (event.target.closest('.header-container')) {
-      tribute.showMenuFor(tribute.current.element);
     } else if (tribute.current.element && !tribute.current.externalTrigger) {
       tribute.current.externalTrigger = false;
       setTimeout(() => tribute.hideMenu());
